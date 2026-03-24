@@ -1,0 +1,9 @@
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET)"
+skip_nonce_check = false
+
+[auth]
+site_url = "env(SUPABASE_URL)"
+additional_redirect_urls = ["env(SUPABASE_URL)", "iconic://**", "exp://**"]

@@ -8,14 +8,13 @@ module.exports = {
         primary: "var(--primary)",
         "on-primary": "var(--on-primary)",
 
-        secondary: "var(--secondary)",
-        "on-secondary": "var(--on-secondary)",
-
         background: "var(--background)",
         "on-background": "var(--on-background)",
 
-        accent: "var(--accent)",
-        "on-accent": "var(--on-accent)",
+        muted: "var(--muted)",
+        "on-muted": "var(--on-muted)",
+
+        danger: "var(--danger)",
       },
     },
   },

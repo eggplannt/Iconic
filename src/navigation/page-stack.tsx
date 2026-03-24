@@ -4,7 +4,7 @@ import HomePage from "@/pages/home";
 import SettingsPage from "@/pages/settings";
 
 export type RootStackParamList = {
-  Profile: undefined;
+  Settings: undefined;
   Home: undefined;
 };
 
@@ -13,7 +13,7 @@ const SCENE_COMPONENTS: Record<
   keyof RootStackParamList,
   React.ComponentType<any>
 > = {
-  Profile: SettingsPage,
+  Settings: SettingsPage,
   Home: HomePage,
 };
 
