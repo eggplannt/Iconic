@@ -3,6 +3,7 @@ CREATE TABLE "profiles" (
   "email" TEXT NOT NULL UNIQUE,
   "default_profile_picture_url" TEXT,
   "default_name" TEXT,
+  "username" TEXT UNIQUE,
   "created_at" TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
@@ -62,8 +63,12 @@ SELECT
 CREATE POLICY "Users can update own profile" ON profiles
 FOR UPDATE
   to authenticated
-WITH
-  CHECK (user_id = auth.uid ());
+USING (
+  user_id = auth.uid()
+)
+WITH CHECK (
+  user_id = auth.uid ()
+);
 
 CREATE POLICY "Users can create groups" ON groups FOR INSERT to authenticated
 WITH

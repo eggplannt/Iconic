@@ -9,18 +9,21 @@ interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
   isLoading: boolean
+  fetchProfile: (userId: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
   session: null,
   profile: null,
-  isLoading: false
+  isLoading: false,
+  fetchProfile: async (userId: string) => { }
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     setIsLoading(true)
@@ -63,11 +66,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ session, profile, isLoading}}>
+    <AuthContext.Provider value={{ session, profile, isLoading, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 // Custom hook for easy access in components
 export const useAuth = () => useContext(AuthContext);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { HapticTab } from "@/components/haptic-tab";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -7,25 +7,30 @@ import useColorTheme from "@/hooks/use-color-theme";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useAuth } from "@/contexts/auth-provider";
 import WelcomePage from "@/pages/welcome-page";
+import ProfileSetupPage from "@/pages/onboarding/profile-setup-page";
 const Tabs = createBottomTabNavigator();
 
 export default function RootNavigator() {
-  const { session, isLoading } = useAuth();
+  const { session, profile, isLoading, fetchProfile } = useAuth();
   const colorScheme = useColorTheme();
-
   // 1. Still fetching session or profile? Show a spinner.
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
-        <ActivityIndicator className="color-on-background" size="large"/>
+        <ActivityIndicator className="color-on-background" size="large" />
       </View>
     );
   }
 
   // 2. No session? Lock them to the Auth flow.
-  if (!session) {
+  if (!session || !profile) {
     return <WelcomePage />;
   }
+  if (!profile.username) {
+    return <ProfileSetupPage session={session} onUsernameSet={()=>fetchProfile(session.user.id)} />;
+  }
+
+
 
   const tabBarIconSize = 30;
   return (
@@ -60,7 +65,7 @@ export default function RootNavigator() {
             return IconSymbol({
               name: focused ? "house.fill" : "house",
               size: tabBarIconSize,
-              color: colorScheme.onBackground,
+              color: focused ? colorScheme.primary : colorScheme.onBackground,
               style: {
                 margin: "auto",
               },
@@ -69,7 +74,7 @@ export default function RootNavigator() {
         }}
       />
       <Tabs.Screen
-        name="Settings"
+        name="SettingsTab"
         component={PageStack("Settings")}
         options={{
           title: "Settings",
@@ -78,7 +83,7 @@ export default function RootNavigator() {
             return IconSymbol({
               name: focused ? "gearshape.fill" : "gearshape",
               size: tabBarIconSize,
-              color: colorScheme.onBackground,
+              color: focused ? colorScheme.primary : colorScheme.onBackground,
               style: {
                 margin: "auto",
               },
