@@ -57,7 +57,21 @@ npm install
 
 ---
 
-## 3. Set up environment variables
+## 3. Configure Google OAuth
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials.
+2. Create an **OAuth 2.0 Client ID** (type: Web application).
+3. Under **Authorised redirect URIs**, add:
+   ```
+   https://your-project-ref.supabase.co/auth/v1/callback
+   ```
+4. Note the client ID and secret (you will not be able to see the client secret after it's been created).
+
+Supabase handles the OAuth callback and redirects back to the app via the `iconic://` and `exp://` schemes configured in `supabase/config.toml`.
+
+---
+
+## 4. Set up environment variables
 
 Copy the example files and fill them in with the values from your Supabase project.
 
@@ -89,25 +103,25 @@ cp supabase/.env.example supabase/.env
 
 ---
 
-## 4. Configure Google OAuth
+## 5. Apply the schema & deploy Edge Functions
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials.
-2. Create an **OAuth 2.0 Client ID** (type: Web application).
-3. Under **Authorised redirect URIs**, add:
-   ```
-   https://your-project-ref.supabase.co/auth/v1/callback
-   ```
-4. Copy the client ID and secret into `supabase/.env`.
-5. In the Supabase dashboard go to **Authentication → Providers → Google** and paste in the same client ID and secret.
+With your environment variables in place, push the database schema and deploy the Edge Function to your Supabase project.
 
-Supabase handles the OAuth callback and redirects back to the app via the `iconic://` and `exp://` schemes configured in `supabase/config.toml`.
+1. Push all migrations:
+   ```bash
+   supabase db push
+   ```
+2. Deploy the `check-username` Edge Function:
+   ```bash
+   supabase functions deploy check-username
+   ```
 
 ---
 
-## 5. Run the app
+## 6. Run the app
 
 ```bash
-npm run start
+npx expo start
 ```
 
 The Metro bundler starts and displays a QR code plus keyboard shortcuts.
@@ -120,22 +134,11 @@ The Metro bundler starts and displays a QR code plus keyboard shortcuts.
 
 ---
 
-## 6. Using Expo Go on a physical device
+## 7. Using Expo Go on a physical device
 
 Expo Go runs your app directly on your phone without a development build or USB cable.
 
-### 6.1 — LAN mode (same Wi-Fi network)
-
-1. Make sure your phone and computer are on the **same Wi-Fi network**.
-2. Start the app:
-   ```bash
-   npm run start
-   ```
-3. Scan the QR code shown in the terminal with the **Expo Go** app (Android) or the **Camera** app (iOS).
-
-### 6.2 — Tunnel mode (different networks / restricted Wi-Fi)
-
-Use the `--tunnel` flag when your device and computer are on different networks, or when a firewall blocks direct LAN connections (common on corporate/university networks).
+Use the `--tunnel` flag.
 
 Tunneling routes Metro bundler traffic through a secure Expo-managed relay so your phone can always reach the dev server.
 
