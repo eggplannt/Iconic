@@ -140,7 +140,7 @@ Expo Go runs your app directly on your phone without a development build or USB 
 
 Use the `--tunnel` flag.
 
-Tunneling routes Metro bundler traffic through a secure Expo-managed relay so your phone can always reach the dev server.
+Tunneling routes Metro bundler traffic through a secure Expo-managed relay so your phone can route to itself.
 
 1. Install the tunnel package if you haven't already:
    ```bash
