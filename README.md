@@ -103,17 +103,24 @@ cp supabase/.env.example supabase/.env
 
 ---
 
-## 5. Apply the schema & deploy Edge Functions
+## 5. Push config, Apply the schema & deploy Edge Functions
 
 With your environment variables in place, push the database schema and deploy the Edge Function to your Supabase project.
 
+1. Push config:
+
+   ```bash
+   supabase config push
+
 1. Push all migrations:
+
    ```bash
    supabase db push
    ```
-2. Deploy the `check-username` Edge Function:
+2. Deploy the Edge Functions:
+
    ```bash
-   supabase functions deploy check-username
+   supabase functions deploy
    ```
 
 ---
@@ -192,5 +199,6 @@ iconic/
 | `npm run ios` | Start and open on iOS |
 | `npm run web` | Start and open in browser |
 | `npm run lint` | Run ESLint |
+| `supabase config push` | Push config to local repository |
 | `supabase db push` | Push migrations to remote project |
 | `supabase functions deploy` | Deploy Edge Functions to remote |
